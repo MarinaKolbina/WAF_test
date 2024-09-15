@@ -8,7 +8,7 @@
 import Foundation
 
 struct UnsplashAPI {
-    private static let accessKey = "YOUR_UNSPLASH_ACCESS_KEY"
+    private static let accessKey = Constants.unsplashAccessKey
     private static let baseUrl = "https://api.unsplash.com/"
     
     static func fetchPhotos(query: String = "", completion: @escaping ([Photo]) -> Void) {

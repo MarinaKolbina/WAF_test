@@ -24,6 +24,7 @@
 		B374DD022C961C7400AF1431 /* PersistanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD012C961C7400AF1431 /* PersistanceManager.swift */; };
 		B374DD042C961CB600AF1431 /* UIImageViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD032C961CB600AF1431 /* UIImageViewExtention.swift */; };
 		B374DD062C973AC800AF1431 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD052C973AC800AF1431 /* Models.swift */; };
+		B374DD082C9750B200AF1431 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD072C9750B200AF1431 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		B374DD012C961C7400AF1431 /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
 		B374DD032C961CB600AF1431 /* UIImageViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtention.swift; sourceTree = "<group>"; };
 		B374DD052C973AC800AF1431 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B374DD072C9750B200AF1431 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 				B374DD012C961C7400AF1431 /* PersistanceManager.swift */,
 				B374DCFC2C961BF900AF1431 /* Network.swift */,
 				B374DD052C973AC800AF1431 /* Models.swift */,
+				B374DD072C9750B200AF1431 /* Constants.swift */,
 				B374DCF22C96197A00AF1431 /* PhotosViewController.swift */,
 				B374DCF82C961B4D00AF1431 /* PhotoCollectionViewCell.swift */,
 				B374DCF62C961A6700AF1431 /* PhotoDetailViewController.swift */,
@@ -288,6 +291,7 @@
 				B374DCC32C9472D400AF1431 /* AppDelegate.swift in Sources */,
 				B374DCFB2C961BCF00AF1431 /* FavoritePhotoCell.swift in Sources */,
 				B374DD042C961CB600AF1431 /* UIImageViewExtention.swift in Sources */,
+				B374DD082C9750B200AF1431 /* Constants.swift in Sources */,
 				B374DD022C961C7400AF1431 /* PersistanceManager.swift in Sources */,
 				B374DCFD2C961BF900AF1431 /* Network.swift in Sources */,
 				B374DCF92C961B4D00AF1431 /* PhotoCollectionViewCell.swift in Sources */,
