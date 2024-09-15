@@ -33,8 +33,8 @@ class FavoritePhotoCell: UITableViewCell {
         NSLayoutConstraint.activate([
             thumbnailImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             thumbnailImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            thumbnailImageView.widthAnchor.constraint(equalToConstant: 50),
-            thumbnailImageView.heightAnchor.constraint(equalToConstant: 50),
+            thumbnailImageView.widthAnchor.constraint(equalToConstant: 35),
+            thumbnailImageView.heightAnchor.constraint(equalToConstant: 35),
             
             authorLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             authorLabel.leadingAnchor.constraint(equalTo: thumbnailImageView.trailingAnchor, constant: 12),

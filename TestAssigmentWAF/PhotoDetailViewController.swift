@@ -38,6 +38,7 @@ class PhotoDetailViewController: UIViewController {
     
     private func setupViews() {
         imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
         
@@ -69,10 +70,32 @@ class PhotoDetailViewController: UIViewController {
         ])
     }
     
+    private func formattedDate(from dateString: String) -> String? {
+        let inputFormatter = DateFormatter()
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+        if let date = inputFormatter.date(from: dateString) {
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "d MMMM yyyy"
+            outputFormatter.locale = Locale.current
+            
+            return outputFormatter.string(from: date)
+        } else {
+            return nil
+        }
+    }
+    
     private func configure(with photo: Photo) {
         imageView.loadImage(from: photo.imageUrl)
         authorLabel.text = "Author: \(photo.authorName)"
-        dateLabel.text = "Created: \(photo.creationDate)"
+        
+        if let formattedDate = formattedDate(from: photo.creationDate) {
+            dateLabel.text = "Created: \(formattedDate)"
+        } else {
+            dateLabel.text = "Created: Unknown"
+        }
+        
         locationLabel.text = "Location: \(photo.location ?? "Unknown")"
         downloadsLabel.text = "Downloads: \(photo.downloads)"
         

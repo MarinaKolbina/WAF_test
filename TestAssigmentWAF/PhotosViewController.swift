@@ -11,6 +11,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
 
     private var collectionView: UICollectionView!
     private var photos: [Photo] = []
+    private var filteredPhotos: [Photo] = []
     private var searchBar: UISearchBar!
     
     override func viewDidLoad() {
@@ -20,21 +21,29 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         
         setupSearchBar()
         setupCollectionView()
-        
-        fetchPhotos() // Initial fetch
+        fetchPhotos()
     }
     
     private func setupSearchBar() {
         searchBar = UISearchBar()
         searchBar.placeholder = "Search Photos"
         searchBar.delegate = self
+        searchBar.showsCancelButton = true
         navigationItem.titleView = searchBar
     }
     
     private func setupCollectionView() {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: view.frame.width / 2 - 16, height: view.frame.width / 2 - 16)
-        layout.sectionInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        
+        let spacing: CGFloat = 9
+        layout.minimumInteritemSpacing = spacing
+        layout.minimumLineSpacing = spacing
+        
+        let numberOfItemsPerRow: CGFloat = 2
+        let totalSpacing = (numberOfItemsPerRow + 1) * spacing
+        let itemWidth = (view.frame.width - totalSpacing) / numberOfItemsPerRow
+        layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.backgroundColor = .white
@@ -46,10 +55,19 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     private func fetchPhotos(query: String = "") {
-        // Networking code to fetch photos from Unsplash API
         UnsplashAPI.fetchPhotos(query: query) { [weak self] photos in
+            let favoritePhotos = PersistenceManager.shared.getFavorites()
+            let favoritePhotoIDs = Set(favoritePhotos.map { $0.id }) // Use Set for faster lookups
+            
+            let updatedPhotos = photos.map { photo -> Photo in
+                var updatedPhoto = photo
+                updatedPhoto.isFavorite = favoritePhotoIDs.contains(photo.id)
+                return updatedPhoto
+            }
+    
             DispatchQueue.main.async {
-                self?.photos = photos
+                self?.photos = updatedPhotos
+                self?.filteredPhotos = updatedPhotos
                 self?.collectionView.reloadData()
             }
         }
@@ -57,18 +75,18 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     // MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return filteredPhotos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as! PhotoCollectionViewCell
-        cell.configure(with: photos[indexPath.item])
+        cell.configure(with: filteredPhotos[indexPath.item])
         return cell
     }
     
     // MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedPhoto = photos[indexPath.item]
+        let selectedPhoto = filteredPhotos[indexPath.item]
         
         let photoDetailVC = PhotoDetailViewControllerPool.shared.getViewController(for: selectedPhoto)
         
@@ -82,8 +100,24 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     // MARK: - UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let query = searchBar.text, !query.isEmpty else { return }
-        fetchPhotos(query: query)
+        guard let query = searchBar.text, !query.isEmpty else {
+            filteredPhotos = photos
+            collectionView.reloadData()
+            return
+        }
+        
+        filteredPhotos = photos.filter { photo in
+            photo.authorName.lowercased().contains(query.lowercased())
+        }
+        
+        collectionView.reloadData()
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        filteredPhotos = photos
+        collectionView.reloadData()
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -100,4 +134,3 @@ extension UIViewController {
         return nil
     }
 }
-
