@@ -19,6 +19,8 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         
         setupTableView()
         loadFavorites()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFavoriteStatusChanged), name: .favoriteStatusChanged, object: nil)
     }
     
     private func setupTableView() {
@@ -35,6 +37,11 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.reloadData()
     }
     
+    // MARK: - Notification Handler
+    @objc private func handleFavoriteStatusChanged(notification: Notification) {
+        loadFavorites()
+    }
+    
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favoritePhotos.count
@@ -48,7 +55,19 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let photoDetailVC = PhotoDetailViewController(photo: favoritePhotos[indexPath.row])
-        navigationController?.pushViewController(photoDetailVC, animated: true)
+        let selectedPhoto = favoritePhotos[indexPath.row]
+
+        let photoDetailVC = PhotoDetailViewControllerPool.shared.getViewController(for: selectedPhoto)
+        
+        if let existingVC = navigationController?.viewControllers.first(where: { $0 === photoDetailVC }) {
+            navigationController?.popToViewController(existingVC, animated: true)
+        } else {
+            navigationController?.pushViewController(photoDetailVC, animated: true)
+        }
+    }
+
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .favoriteStatusChanged, object: nil)
     }
 }

@@ -25,6 +25,7 @@
 		B374DD042C961CB600AF1431 /* UIImageViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD032C961CB600AF1431 /* UIImageViewExtention.swift */; };
 		B374DD062C973AC800AF1431 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD052C973AC800AF1431 /* Models.swift */; };
 		B374DD082C9750B200AF1431 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD072C9750B200AF1431 /* Constants.swift */; };
+		B374DD0A2C977A8700AF1431 /* PhotoDetailViewControllerPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD092C977A8700AF1431 /* PhotoDetailViewControllerPool.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		B374DD032C961CB600AF1431 /* UIImageViewExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtention.swift; sourceTree = "<group>"; };
 		B374DD052C973AC800AF1431 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		B374DD072C9750B200AF1431 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B374DD092C977A8700AF1431 /* PhotoDetailViewControllerPool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewControllerPool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 				B374DCF22C96197A00AF1431 /* PhotosViewController.swift */,
 				B374DCF82C961B4D00AF1431 /* PhotoCollectionViewCell.swift */,
 				B374DCF62C961A6700AF1431 /* PhotoDetailViewController.swift */,
+				B374DD092C977A8700AF1431 /* PhotoDetailViewControllerPool.swift */,
 				B374DD032C961CB600AF1431 /* UIImageViewExtention.swift */,
 				B374DCCB2C9472D600AF1431 /* Assets.xcassets */,
 				B374DCCD2C9472D600AF1431 /* LaunchScreen.storyboard */,
@@ -286,6 +289,7 @@
 			files = (
 				B374DCF72C961A6700AF1431 /* PhotoDetailViewController.swift in Sources */,
 				B374DCC72C9472D400AF1431 /* MainTabBarController.swift in Sources */,
+				B374DD0A2C977A8700AF1431 /* PhotoDetailViewControllerPool.swift in Sources */,
 				B374DCF32C96197A00AF1431 /* PhotosViewController.swift in Sources */,
 				B374DD062C973AC800AF1431 /* Models.swift in Sources */,
 				B374DCC32C9472D400AF1431 /* AppDelegate.swift in Sources */,

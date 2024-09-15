@@ -68,9 +68,17 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     
     // MARK: - UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let photoDetailVC = PhotoDetailViewController(photo: photos[indexPath.item])
-        navigationController?.pushViewController(photoDetailVC, animated: true)
+        let selectedPhoto = photos[indexPath.item]
+        
+        let photoDetailVC = PhotoDetailViewControllerPool.shared.getViewController(for: selectedPhoto)
+        
+        if let existingVC = navigationController?.viewControllers.first(where: { $0 === photoDetailVC }) {
+            navigationController?.popToViewController(existingVC, animated: true)
+        } else {
+            navigationController?.pushViewController(photoDetailVC, animated: true)
+        }
     }
+
     
     // MARK: - UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -78,3 +86,18 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         fetchPhotos(query: query)
     }
 }
+
+extension UIViewController {
+    func findPhotoDetailViewController(for photo: Photo) -> PhotoDetailViewController? {
+        guard let navigationController = self.navigationController else { return nil }
+        
+        for controller in navigationController.viewControllers {
+            if let photoDetailVC = controller as? PhotoDetailViewController,
+               photoDetailVC.photo.id == photo.id {
+                return photoDetailVC
+            }
+        }
+        return nil
+    }
+}
+

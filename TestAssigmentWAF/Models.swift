@@ -16,14 +16,75 @@ struct Photo: Codable {
     let imageUrl: String
     let thumbnailUrl: String
     
+    var isFavorite: Bool = false
+
     enum CodingKeys: String, CodingKey {
         case id
-        case authorName = "user.name"
         case creationDate = "created_at"
-        case location = "location.name"
         case downloads
-        case imageUrl = "urls.regular"
-        case thumbnailUrl = "urls.thumb"
+        case urls
+        case user
+        case location
+        case isFavorite
+    }
+
+    enum UrlsKeys: String, CodingKey {
+        case regular
+        case thumb
+    }
+    
+    enum UserKeys: String, CodingKey {
+        case name
+    }
+    
+    enum LocationKeys: String, CodingKey {
+        case name
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decode(String.self, forKey: .id)
+        creationDate = try container.decode(String.self, forKey: .creationDate)
+        downloads = try container.decode(Int.self, forKey: .downloads)
+        
+        let urlsContainer = try container.nestedContainer(keyedBy: UrlsKeys.self, forKey: .urls)
+        imageUrl = try urlsContainer.decode(String.self, forKey: .regular)
+        thumbnailUrl = try urlsContainer.decode(String.self, forKey: .thumb)
+        
+        let userContainer = try container.nestedContainer(keyedBy: UserKeys.self, forKey: .user)
+        authorName = try userContainer.decode(String.self, forKey: .name)
+        
+        if let locationContainer = try? container.nestedContainer(keyedBy: LocationKeys.self, forKey: .location) {
+            location = try locationContainer.decodeIfPresent(String.self, forKey: .name)
+        } else {
+            location = nil
+        }
+        
+        isFavorite = try container.decodeIfPresent(Bool.self, forKey: .isFavorite) ?? false
+    }
+    
+    // Custom Encoder to handle nested JSON
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(id, forKey: .id)
+        try container.encode(creationDate, forKey: .creationDate)
+        try container.encode(downloads, forKey: .downloads)
+        
+        var urlsContainer = container.nestedContainer(keyedBy: UrlsKeys.self, forKey: .urls)
+        try urlsContainer.encode(imageUrl, forKey: .regular)
+        try urlsContainer.encode(thumbnailUrl, forKey: .thumb)
+        
+        var userContainer = container.nestedContainer(keyedBy: UserKeys.self, forKey: .user)
+        try userContainer.encode(authorName, forKey: .name)
+        
+        if let location = location {
+            var locationContainer = container.nestedContainer(keyedBy: LocationKeys.self, forKey: .location)
+            try locationContainer.encode(location, forKey: .name)
+        }
+        
+        try container.encode(isFavorite, forKey: .isFavorite)
     }
 }
 

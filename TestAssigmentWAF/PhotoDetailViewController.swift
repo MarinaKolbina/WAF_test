@@ -9,8 +9,7 @@ import UIKit
 
 class PhotoDetailViewController: UIViewController {
 
-    private let photo: Photo
-    private var isFavorite: Bool = false
+    var photo: Photo
     
     private let imageView = UIImageView()
     private let authorLabel = UILabel()
@@ -81,17 +80,25 @@ class PhotoDetailViewController: UIViewController {
     }
     
     private func updateFavoriteButton() {
-        let title = isFavorite ? "Remove from Favorites" : "Add to Favorites"
+        let title = photo.isFavorite ? "Remove from Favorites" : "Add to Favorites"
         favoriteButton.setTitle(title, for: .normal)
     }
     
     @objc private func toggleFavorite() {
-        isFavorite.toggle()
-        if isFavorite {
+        photo.isFavorite.toggle()
+        if photo.isFavorite {
             PersistenceManager.shared.addFavorite(photo)
         } else {
             PersistenceManager.shared.removeFavorite(photo)
         }
         updateFavoriteButton()
+        
+        // Post notification when favorite status changes
+        NotificationCenter.default.post(name: .favoriteStatusChanged, object: photo)
     }
 }
+
+extension Notification.Name {
+    static let favoriteStatusChanged = Notification.Name("favoriteStatusChanged")
+}
+
