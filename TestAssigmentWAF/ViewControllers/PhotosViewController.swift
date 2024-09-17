@@ -99,7 +99,6 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPhoto = filteredPhotos[indexPath.item]
         
-        // Determine tap location
         let tapLocation = collectionView.layoutAttributesForItem(at: indexPath)!.frame.origin.x
         navigationControllerDelegate.transition.fromLeft = (tapLocation < collectionView.frame.width / 2)
         
