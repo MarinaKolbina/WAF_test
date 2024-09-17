@@ -47,8 +47,7 @@ class FavoritePhotoCell: UITableViewCell {
     }
     
     func configure(with photo: Photo) {
-        thumbnailImageView.loadImage(from: photo.thumbnailUrl)
+        thumbnailImageView.loadImage(from: photo.thumbnailUrl, placeholder: UIImage(named: "placeholder"))
         authorLabel.text = photo.authorName
     }
 }
-

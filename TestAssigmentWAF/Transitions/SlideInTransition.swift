@@ -1,4 +1,3 @@
-//
 //  SlideInTransition.swift
 //  TestAssigmentWAF
 //
@@ -12,12 +11,15 @@ class SlideInTransition: NSObject, UIViewControllerAnimatedTransitioning {
     var fromLeft = true
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3 // Duration of the animation
+        return 0.3
     }
 
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        guard let toView = transitionContext.view(forKey: .to) else { return }
-        guard let fromView = transitionContext.view(forKey: .from) else { return }
+        guard let toView = transitionContext.view(forKey: .to),
+              let fromView = transitionContext.view(forKey: .from) else {
+            transitionContext.completeTransition(false)
+            return
+        }
 
         let containerView = transitionContext.containerView
         let offScreenLeft = CGAffineTransform(translationX: -containerView.frame.width, y: 0)
@@ -30,18 +32,19 @@ class SlideInTransition: NSObject, UIViewControllerAnimatedTransitioning {
             UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
                 toView.transform = .identity
                 fromView.transform = self.fromLeft ? offScreenRight : offScreenLeft
-            }) { _ in
+            }) { finished in
                 fromView.transform = .identity
-                transitionContext.completeTransition(true)
+                transitionContext.completeTransition(finished)
             }
         } else {
             containerView.insertSubview(toView, belowSubview: fromView)
-            fromView.transform = .identity
+            toView.transform = .identity
 
             UIView.animate(withDuration: transitionDuration(using: transitionContext), animations: {
                 fromView.transform = self.fromLeft ? offScreenLeft : offScreenRight
-            }) { _ in
-                transitionContext.completeTransition(true)
+            }) { finished in
+                fromView.transform = .identity
+                transitionContext.completeTransition(finished)
             }
         }
     }

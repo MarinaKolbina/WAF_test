@@ -1,42 +1,61 @@
-//
 //  Network.swift
-//  TestAssigmentWAF
+//  TestAssignmentWAF
 //
 //  Created by Marina Kolbina on 14/09/2024.
 //
-
-import Foundation
+import Alamofire
+import UIKit
 
 struct UnsplashAPI {
     private static let accessKey = Constants.unsplashAccessKey
     private static let baseUrl = "https://api.unsplash.com/"
     
-    static func fetchPhotos(query: String = "", completion: @escaping ([Photo]) -> Void) {
-        let endpoint = query.isEmpty ? "photos/random?count=30" : "search/photos?query=\(query)&per_page=30"
-        guard let url = URL(string: baseUrl + endpoint) else { return }
+    static func fetchPhotos(query: String = "", count: Int = 30, session: NetworkingProtocol = Session.default, completion: @escaping ([Photo]) -> Void) {
+        let endpoint = query.isEmpty
+            ? "photos/random?count=\(count)"
+            : "search/photos?query=\(query)&per_page=\(count)"
+        let url = baseUrl + endpoint
         
-        var request = URLRequest(url: url)
-        request.setValue("Client-ID \(accessKey)", forHTTPHeaderField: "Authorization")
+        let headers: HTTPHeaders = [
+            "Authorization": "Client-ID \(accessKey)"
+        ]
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Failed to fetch photos: \(error?.localizedDescription ?? "No error description")")
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                if query.isEmpty {
-                    let photos = try decoder.decode([Photo].self, from: data)
-                    completion(photos)
-                } else {
-                    let searchResponse = try decoder.decode(PhotoSearchResponse.self, from: data)
-                    completion(searchResponse.results)
+        session.request(url, headers: headers) { response in
+            switch response.result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    if query.isEmpty {
+                        let photos = try decoder.decode([Photo].self, from: data)
+                        completion(photos)
+                    } else {
+                        let searchResponse = try decoder.decode(PhotoSearchResponse.self, from: data)
+                        completion(searchResponse.results)
+                    }
+                } catch {
+                    print("Failed to decode JSON: \(error.localizedDescription)")
+                    showAlert(with: "Decoding Error", message: error.localizedDescription)
                 }
-            } catch {
-                print("Failed to decode JSON: \(error.localizedDescription)")
+            case .failure(let error):
+                print("Failed to fetch photos: \(error.localizedDescription)")
+                showAlert(with: "Network Error", message: error.localizedDescription)
             }
         }
-        task.resume()
+    }
+    
+    // Function to show alerts
+    private static func showAlert(with title: String, message: String) {
+        guard let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
+              let window = scene.windows.first(where: { $0.isKeyWindow }),
+              let topViewController = window.rootViewController else {
+            return
+        }
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        DispatchQueue.main.async {
+            topViewController.present(alertController, animated: true, completion: nil)
+        }
     }
 }
+

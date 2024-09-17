@@ -34,6 +34,6 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with photo: Photo) {
-        imageView.loadImage(from: photo.thumbnailUrl)
+        imageView.loadImage(from: photo.thumbnailUrl, placeholder: UIImage(named: "placeholder"))
     }
 }

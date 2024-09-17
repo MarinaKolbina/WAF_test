@@ -1,22 +1,20 @@
 //
-//  UIImageViewExtention.swift
+//  UIImageViewExtension.swift
 //  TestAssigmentWAF
 //
 //  Created by Marina Kolbina on 14/09/2024.
 //
 
 import UIKit
+import SDWebImage
 
 extension UIImageView {
-    func loadImage(from urlString: String) {
-        guard let url = URL(string: urlString) else { return }
+    func loadImage(from urlString: String, placeholder: UIImage? = nil) {
+        guard let url = URL(string: urlString) else {
+            self.image = placeholder
+            return
+        }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data, error == nil {
-                DispatchQueue.main.async {
-                    self.image = UIImage(data: data)
-                }
-            }
-        }.resume()
+        self.sd_setImage(with: url, placeholderImage: placeholder, options: .highPriority, completed: nil)
     }
 }

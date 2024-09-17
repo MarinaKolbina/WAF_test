@@ -87,7 +87,7 @@ class PhotoDetailViewController: UIViewController {
     }
     
     private func configure(with photo: Photo) {
-        imageView.loadImage(from: photo.imageUrl)
+        imageView.loadImage(from: photo.imageUrl, placeholder: UIImage(named: "placeholder"))
         authorLabel.text = "Author: \(photo.authorName)"
         
         if let formattedDate = formattedDate(from: photo.creationDate) {

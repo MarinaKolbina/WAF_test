@@ -10,11 +10,13 @@ import UIKit
 class PhotosViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate {
 
     private var collectionView: UICollectionView!
+    private var allPhotos: [Photo] = []
     private var photos: [Photo] = []
     private var filteredPhotos: [Photo] = []
     private var searchBar: UISearchBar!
     private let navigationControllerDelegate = NavigationControllerDelegate()
-    
+    private var isFetchingMore = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Photos"
@@ -56,8 +58,13 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         view.addSubview(collectionView)
     }
     
-    private func fetchPhotos(query: String = "") {
-        UnsplashAPI.fetchPhotos(query: query) { [weak self] photos in
+    private func fetchPhotos(query: String = "", count: Int = 30) {
+        guard !isFetchingMore else { return } // Prevent overlapping fetches
+        isFetchingMore = true
+        
+        UnsplashAPI.fetchPhotos(query: query, count: count) { [weak self] photos in
+            guard let self = self else { return }
+            
             let favoritePhotos = PersistenceManager.shared.getFavorites()
             let favoritePhotoIDs = Set(favoritePhotos.map { $0.id }) // Use Set for faster lookups
             
@@ -68,9 +75,11 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             }
     
             DispatchQueue.main.async {
-                self?.photos = updatedPhotos
-                self?.filteredPhotos = updatedPhotos
-                self?.collectionView.reloadData()
+                self.allPhotos.append(contentsOf: updatedPhotos)
+                self.photos.append(contentsOf: updatedPhotos)
+                self.filteredPhotos = self.photos
+                self.collectionView.reloadData()
+                self.isFetchingMore = false
             }
         }
     }
@@ -103,6 +112,16 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
 
+    // Detect when the user scrolls near the bottom to fetch more photos
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let height = scrollView.frame.size.height
+        
+        if offsetY > contentHeight - height * 2, !isFetchingMore {
+            fetchPhotos(count: 30)
+        }
+    }
     
     // MARK: - UISearchBarDelegate
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -112,7 +131,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
             return
         }
         
-        filteredPhotos = photos.filter { photo in
+        filteredPhotos = allPhotos.filter { photo in
             photo.authorName.lowercased().contains(query.lowercased())
         }
         
