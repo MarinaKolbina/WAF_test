@@ -49,4 +49,3 @@ class SlideInTransition: NSObject, UIViewControllerAnimatedTransitioning {
         }
     }
 }
-

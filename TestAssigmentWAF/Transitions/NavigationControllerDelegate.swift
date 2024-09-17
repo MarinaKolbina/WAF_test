@@ -16,4 +16,3 @@ class NavigationControllerDelegate: NSObject, UINavigationControllerDelegate {
         return transition
     }
 }
-

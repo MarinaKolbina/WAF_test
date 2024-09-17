@@ -3,6 +3,7 @@
 //
 //  Created by Marina Kolbina on 14/09/2024.
 //
+
 import Alamofire
 import UIKit
 
@@ -10,7 +11,7 @@ struct UnsplashAPI {
     private static let accessKey = Constants.unsplashAccessKey
     private static let baseUrl = "https://api.unsplash.com/"
     
-    static func fetchPhotos(query: String = "", count: Int = 30, session: NetworkingProtocol = Session.default, completion: @escaping ([Photo]) -> Void) {
+    static func fetchPhotos(query: String = "", count: Int = 30, completion: @escaping ([Photo]) -> Void) {
         let endpoint = query.isEmpty
             ? "photos/random?count=\(count)"
             : "search/photos?query=\(query)&per_page=\(count)"
@@ -20,7 +21,7 @@ struct UnsplashAPI {
             "Authorization": "Client-ID \(accessKey)"
         ]
         
-        session.request(url, headers: headers) { response in
+        AF.request(url, headers: headers).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
@@ -58,4 +59,3 @@ struct UnsplashAPI {
         }
     }
 }
-
