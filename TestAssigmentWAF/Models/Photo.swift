@@ -87,7 +87,3 @@ struct Photo: Codable {
         try container.encode(isFavorite, forKey: .isFavorite)
     }
 }
-
-struct PhotoSearchResponse: Codable {
-    let results: [Photo]
-}
