@@ -13,6 +13,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     private var photos: [Photo] = []
     private var filteredPhotos: [Photo] = []
     private var searchBar: UISearchBar!
+    private let navigationControllerDelegate = NavigationControllerDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         setupSearchBar()
         setupCollectionView()
         fetchPhotos()
+        navigationController?.delegate = navigationControllerDelegate
     }
     
     private func setupSearchBar() {
@@ -88,6 +90,10 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPhoto = filteredPhotos[indexPath.item]
         
+        // Determine tap location
+        let tapLocation = collectionView.layoutAttributesForItem(at: indexPath)!.frame.origin.x
+        navigationControllerDelegate.transition.fromLeft = (tapLocation < collectionView.frame.width / 2)
+        
         let photoDetailVC = PhotoDetailViewControllerPool.shared.getViewController(for: selectedPhoto)
         
         if let existingVC = navigationController?.viewControllers.first(where: { $0 === photoDetailVC }) {
@@ -118,19 +124,5 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         collectionView.reloadData()
         searchBar.text = ""
         searchBar.resignFirstResponder()
-    }
-}
-
-extension UIViewController {
-    func findPhotoDetailViewController(for photo: Photo) -> PhotoDetailViewController? {
-        guard let navigationController = self.navigationController else { return nil }
-        
-        for controller in navigationController.viewControllers {
-            if let photoDetailVC = controller as? PhotoDetailViewController,
-               photoDetailVC.photo.id == photo.id {
-                return photoDetailVC
-            }
-        }
-        return nil
     }
 }
