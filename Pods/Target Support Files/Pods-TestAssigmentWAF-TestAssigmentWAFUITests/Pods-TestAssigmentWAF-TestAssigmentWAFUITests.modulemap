@@ -1,0 +1,6 @@
+framework module Pods_TestAssigmentWAF_TestAssigmentWAFUITests {
+  umbrella header "Pods-TestAssigmentWAF-TestAssigmentWAFUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

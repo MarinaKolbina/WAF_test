@@ -1,0 +1,6 @@
+framework module Pods_TestAssigmentWAF {
+  umbrella header "Pods-TestAssigmentWAF-umbrella.h"
+
+  export *
+  module * { export * }
+}
