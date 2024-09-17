@@ -48,7 +48,7 @@ class PhotoDetailViewController: UIViewController {
         downloadsLabel.translatesAutoresizingMaskIntoConstraints = false
         favoriteButton.translatesAutoresizingMaskIntoConstraints = false
         
-        favoriteButton.setTitle("Add to Favorites", for: .normal)
+        favoriteButton.setTitle(photo.isFavorite ? "Remove from Favorites" : "Add to Favorites", for: .normal)
         favoriteButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
         
         let stackView = UIStackView(arrangedSubviews: [authorLabel, dateLabel, locationLabel, downloadsLabel, favoriteButton])
@@ -124,4 +124,3 @@ class PhotoDetailViewController: UIViewController {
 extension Notification.Name {
     static let favoriteStatusChanged = Notification.Name("favoriteStatusChanged")
 }
-

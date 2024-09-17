@@ -26,6 +26,8 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         setupCollectionView()
         fetchPhotos()
         navigationController?.delegate = navigationControllerDelegate
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleFavoriteStatusChanged), name: .favoriteStatusChanged, object: nil)
     }
     
     private func setupSearchBar() {
@@ -84,6 +86,24 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         }
     }
     
+    @objc private func handleFavoriteStatusChanged(notification: Notification) {
+        guard let updatedPhoto = notification.object as? Photo else { return }
+
+        if let index = allPhotos.firstIndex(where: { $0.id == updatedPhoto.id }) {
+            allPhotos[index].isFavorite = updatedPhoto.isFavorite
+        }
+
+        if let index = photos.firstIndex(where: { $0.id == updatedPhoto.id }) {
+            photos[index].isFavorite = updatedPhoto.isFavorite
+        }
+
+        if let index = filteredPhotos.firstIndex(where: { $0.id == updatedPhoto.id }) {
+            filteredPhotos[index].isFavorite = updatedPhoto.isFavorite
+        }
+
+        collectionView.reloadData()
+    }
+    
     // MARK: - UICollectionViewDataSource
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return filteredPhotos.count
@@ -102,13 +122,7 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         let tapLocation = collectionView.layoutAttributesForItem(at: indexPath)!.frame.origin.x
         navigationControllerDelegate.transition.fromLeft = (tapLocation < collectionView.frame.width / 2)
         
-        let photoDetailVC = PhotoDetailViewControllerPool.shared.getViewController(for: selectedPhoto)
-        
-        if let existingVC = navigationController?.viewControllers.first(where: { $0 === photoDetailVC }) {
-            navigationController?.popToViewController(existingVC, animated: true)
-        } else {
-            navigationController?.pushViewController(photoDetailVC, animated: true)
-        }
+        navigationController?.pushViewController(PhotoDetailViewController(photo: selectedPhoto), animated: true)
     }
 
     // Detect when the user scrolls near the bottom to fetch more photos
@@ -144,3 +158,4 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.resignFirstResponder()
     }
 }
+

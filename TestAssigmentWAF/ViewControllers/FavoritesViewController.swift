@@ -56,14 +56,8 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedPhoto = favoritePhotos[indexPath.row]
-
-        let photoDetailVC = PhotoDetailViewControllerPool.shared.getViewController(for: selectedPhoto)
         
-        if let existingVC = navigationController?.viewControllers.first(where: { $0 === photoDetailVC }) {
-            navigationController?.popToViewController(existingVC, animated: true)
-        } else {
-            navigationController?.pushViewController(photoDetailVC, animated: true)
-        }
+        navigationController?.pushViewController(PhotoDetailViewController(photo: selectedPhoto), animated: true)
     }
 
     
