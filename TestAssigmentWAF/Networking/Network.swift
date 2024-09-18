@@ -11,7 +11,7 @@ struct UnsplashAPI {
     private static let accessKey = Constants.unsplashAccessKey
     private static let baseUrl = "https://api.unsplash.com/"
     
-    static func fetchPhotos(query: String = "", count: Int = 30, completion: @escaping ([Photo]) -> Void) {
+    static func fetchPhotos(query: String = "", count: Int = 30, session: Session = AF, completion: @escaping ([Photo]) -> Void) {
         let endpoint = query.isEmpty
             ? "photos/random?count=\(count)"
             : "search/photos?query=\(query)&per_page=\(count)"
@@ -21,7 +21,7 @@ struct UnsplashAPI {
             "Authorization": "Client-ID \(accessKey)"
         ]
         
-        AF.request(url, headers: headers).responseData { response in
+        session.request(url, headers: headers).responseData { response in
             switch response.result {
             case .success(let data):
                 do {
@@ -36,10 +36,14 @@ struct UnsplashAPI {
                 } catch {
                     print("Failed to decode JSON: \(error.localizedDescription)")
                     showAlert(with: "Decoding Error", message: error.localizedDescription)
+                    
+                    completion([])
                 }
             case .failure(let error):
                 print("Failed to fetch photos: \(error.localizedDescription)")
                 showAlert(with: "Network Error", message: error.localizedDescription)
+                
+                completion([])
             }
         }
     }

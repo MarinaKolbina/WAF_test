@@ -1,5 +1,5 @@
 //
-//  Models.swift
+//  Photo.swift
 //  TestAssigmentWAF
 //
 //  Created by Marina Kolbina on 15/09/2024.
@@ -17,6 +17,17 @@ struct Photo: Codable {
     let thumbnailUrl: String
     
     var isFavorite: Bool = false
+    
+    init(id: String, authorName: String, creationDate: String, location: String?, downloads: Int, imageUrl: String, thumbnailUrl: String, isFavorite: Bool = false) {
+        self.id = id
+        self.authorName = authorName
+        self.creationDate = creationDate
+        self.location = location
+        self.downloads = downloads
+        self.imageUrl = imageUrl
+        self.thumbnailUrl = thumbnailUrl
+        self.isFavorite = isFavorite
+    }
 
     enum CodingKeys: String, CodingKey {
         case id

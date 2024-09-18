@@ -30,6 +30,9 @@
 		B374DD0C2C99888E00AF1431 /* SlideInTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD0B2C99888E00AF1431 /* SlideInTransition.swift */; };
 		B374DD0E2C9988C100AF1431 /* NavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD0D2C9988C100AF1431 /* NavigationControllerDelegate.swift */; };
 		B374DD1E2C99D74900AF1431 /* PhotoSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD1D2C99D74900AF1431 /* PhotoSearchResponse.swift */; };
+		B374DD242C9AEBB000AF1431 /* PhotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD232C9AEBB000AF1431 /* PhotoTests.swift */; };
+		B374DD262C9AEBDF00AF1431 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD252C9AEBDF00AF1431 /* MockURLProtocol.swift */; };
+		B374DD282C9AEC1000AF1431 /* UnsplashAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD272C9AEC1000AF1431 /* UnsplashAPITests.swift */; };
 		B951A7EDA04DC7D5626FB0CB /* Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56ABA3069056EF11C263ACE /* Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +86,9 @@
 		B374DD0B2C99888E00AF1431 /* SlideInTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideInTransition.swift; sourceTree = "<group>"; };
 		B374DD0D2C9988C100AF1431 /* NavigationControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDelegate.swift; sourceTree = "<group>"; };
 		B374DD1D2C99D74900AF1431 /* PhotoSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchResponse.swift; sourceTree = "<group>"; };
+		B374DD232C9AEBB000AF1431 /* PhotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTests.swift; sourceTree = "<group>"; };
+		B374DD252C9AEBDF00AF1431 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		B374DD272C9AEC1000AF1431 /* UnsplashAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPITests.swift; sourceTree = "<group>"; };
 		B56ABA3069056EF11C263ACE /* Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF8166B1B21592BD6F204822 /* Pods-TestAssigmentWAF-TestAssigmentWAFUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestAssigmentWAF-TestAssigmentWAFUITests.release.xcconfig"; path = "Target Support Files/Pods-TestAssigmentWAF-TestAssigmentWAFUITests/Pods-TestAssigmentWAF-TestAssigmentWAFUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -181,6 +187,9 @@
 			isa = PBXGroup;
 			children = (
 				B374DCD92C9472D700AF1431 /* TestAssigmentWAFTests.swift */,
+				B374DD232C9AEBB000AF1431 /* PhotoTests.swift */,
+				B374DD252C9AEBDF00AF1431 /* MockURLProtocol.swift */,
+				B374DD272C9AEC1000AF1431 /* UnsplashAPITests.swift */,
 			);
 			path = TestAssigmentWAFTests;
 			sourceTree = "<group>";
@@ -528,6 +537,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B374DD282C9AEC1000AF1431 /* UnsplashAPITests.swift in Sources */,
+				B374DD262C9AEBDF00AF1431 /* MockURLProtocol.swift in Sources */,
+				B374DD242C9AEBB000AF1431 /* PhotoTests.swift in Sources */,
 				B374DCDA2C9472D700AF1431 /* TestAssigmentWAFTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -605,7 +617,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -668,7 +680,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
