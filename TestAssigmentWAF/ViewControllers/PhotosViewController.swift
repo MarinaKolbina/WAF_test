@@ -110,7 +110,9 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as! PhotoCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else {
+            return UICollectionViewCell() // return a default cell if the casting fails
+        }
         cell.configure(with: filteredPhotos[indexPath.item])
         return cell
     }
@@ -119,10 +121,16 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let selectedPhoto = filteredPhotos[indexPath.item]
         
-        let tapLocation = collectionView.layoutAttributesForItem(at: indexPath)!.frame.origin.x
-        navigationControllerDelegate.transition.fromLeft = (tapLocation < collectionView.frame.width / 2)
+        // Safe unwrapping of layout attributes
+        if let layoutAttributes = collectionView.layoutAttributesForItem(at: indexPath) {
+            let tapLocation = layoutAttributes.frame.origin.x
+            navigationControllerDelegate.transition.fromLeft = (tapLocation < collectionView.frame.width / 2)
+        }
         
-        navigationController?.pushViewController(PhotoDetailViewController(photo: selectedPhoto), animated: true)
+        // Safe unwrapping of navigationController
+        if let navigationController = navigationController {
+            navigationController.pushViewController(PhotoDetailViewController(photo: selectedPhoto), animated: true)
+        }
     }
 
     // Detect when the user scrolls near the bottom to fetch more photos
@@ -158,4 +166,3 @@ class PhotosViewController: UIViewController, UICollectionViewDataSource, UIColl
         searchBar.resignFirstResponder()
     }
 }
-

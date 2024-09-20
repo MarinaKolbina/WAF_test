@@ -13,18 +13,24 @@ class PersistenceManager {
     
     private init() {}
     
+    // Add a photo to favorites
     func addFavorite(_ photo: Photo) {
         var favorites = getFavorites()
-        favorites.append(photo)
-        saveFavorites(favorites)
+        // Ensure the photo isn't already in the favorites before adding
+        if !favorites.contains(where: { $0.id == photo.id }) {
+            favorites.append(photo)
+            saveFavorites(favorites)
+        }
     }
     
+    // Remove a photo from favorites
     func removeFavorite(_ photo: Photo) {
         var favorites = getFavorites()
         favorites.removeAll { $0.id == photo.id }
         saveFavorites(favorites)
     }
     
+    // Fetch all favorites
     func getFavorites() -> [Photo] {
         guard let data = UserDefaults.standard.data(forKey: favoritesKey) else { return [] }
         do {
@@ -36,6 +42,7 @@ class PersistenceManager {
         }
     }
     
+    // Save favorites to UserDefaults
     private func saveFavorites(_ photos: [Photo]) {
         do {
             let data = try JSONEncoder().encode(photos)
@@ -45,4 +52,3 @@ class PersistenceManager {
         }
     }
 }
-

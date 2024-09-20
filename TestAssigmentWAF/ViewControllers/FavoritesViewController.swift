@@ -8,10 +8,12 @@
 import UIKit
 
 class FavoritesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
     private var tableView: UITableView!
+    
+    // The source of truth - this will load data from the PersistenceManager
     private var favoritePhotos: [Photo] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Favorites"
@@ -20,6 +22,7 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         setupTableView()
         loadFavorites()
         
+        // Listen to changes in the favorite status
         NotificationCenter.default.addObserver(self, selector: #selector(handleFavoriteStatusChanged), name: .favoriteStatusChanged, object: nil)
     }
     
@@ -28,15 +31,15 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
         tableView.register(FavoritePhotoCell.self, forCellReuseIdentifier: FavoritePhotoCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
-        
         view.addSubview(tableView)
     }
     
+    // Fetch the favorite photos from PersistenceManager
     private func loadFavorites() {
         favoritePhotos = PersistenceManager.shared.getFavorites()
         tableView.reloadData()
     }
-    
+
     // MARK: - Notification Handler
     @objc private func handleFavoriteStatusChanged(notification: Notification) {
         loadFavorites()
@@ -56,10 +59,8 @@ class FavoritesViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedPhoto = favoritePhotos[indexPath.row]
-        
         navigationController?.pushViewController(PhotoDetailViewController(photo: selectedPhoto), animated: true)
     }
-
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .favoriteStatusChanged, object: nil)
