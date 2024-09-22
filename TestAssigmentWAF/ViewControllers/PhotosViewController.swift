@@ -131,7 +131,7 @@ class PhotosViewController: UIViewController {
     // MARK: - Dismiss Keyboard
     
     @objc private func dismissKeyboard() {
-        view.endEditing(true)
+        searchBar.endEditing(true)
     }
 }
 
