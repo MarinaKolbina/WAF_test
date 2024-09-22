@@ -55,14 +55,6 @@ class PhotosViewController: UIViewController {
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
     }
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        view.endEditing(true) // Dismiss the keyboard on any touch outside
-    }
     
     // MARK: - Setup Methods
     
@@ -138,9 +130,9 @@ class PhotosViewController: UIViewController {
     
     // MARK: - Dismiss Keyboard
     
-//    @objc private func dismissKeyboard() {
-//        view.endEditing(true)
-//    }
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
