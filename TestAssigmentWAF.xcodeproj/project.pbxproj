@@ -22,17 +22,20 @@
 		B374DCF72C961A6700AF1431 /* PhotoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DCF62C961A6700AF1431 /* PhotoDetailViewController.swift */; };
 		B374DCF92C961B4D00AF1431 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DCF82C961B4D00AF1431 /* PhotoCollectionViewCell.swift */; };
 		B374DCFB2C961BCF00AF1431 /* FavoritePhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DCFA2C961BCF00AF1431 /* FavoritePhotoCell.swift */; };
-		B374DCFD2C961BF900AF1431 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DCFC2C961BF900AF1431 /* Network.swift */; };
+		B374DCFD2C961BF900AF1431 /* UnsplashAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DCFC2C961BF900AF1431 /* UnsplashAPI.swift */; };
 		B374DD022C961C7400AF1431 /* PersistanceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD012C961C7400AF1431 /* PersistanceManager.swift */; };
 		B374DD042C961CB600AF1431 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD032C961CB600AF1431 /* UIImageViewExtension.swift */; };
 		B374DD062C973AC800AF1431 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD052C973AC800AF1431 /* Photo.swift */; };
 		B374DD082C9750B200AF1431 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD072C9750B200AF1431 /* Constants.swift */; };
 		B374DD0C2C99888E00AF1431 /* SlideInTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD0B2C99888E00AF1431 /* SlideInTransition.swift */; };
 		B374DD0E2C9988C100AF1431 /* NavigationControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD0D2C9988C100AF1431 /* NavigationControllerDelegate.swift */; };
-		B374DD1E2C99D74900AF1431 /* PhotoSearchResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD1D2C99D74900AF1431 /* PhotoSearchResponse.swift */; };
 		B374DD242C9AEBB000AF1431 /* PhotoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD232C9AEBB000AF1431 /* PhotoTests.swift */; };
 		B374DD262C9AEBDF00AF1431 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD252C9AEBDF00AF1431 /* MockURLProtocol.swift */; };
 		B374DD282C9AEC1000AF1431 /* UnsplashAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD272C9AEC1000AF1431 /* UnsplashAPITests.swift */; };
+		B374DD2A2C9FFE5500AF1431 /* DateFormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD292C9FFE5500AF1431 /* DateFormatterHelper.swift */; };
+		B374DD2D2CA050DF00AF1431 /* PhotoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD2C2CA050DF00AF1431 /* PhotoDetailViewModel.swift */; };
+		B374DD2F2CA050FD00AF1431 /* PhotosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD2E2CA050FD00AF1431 /* PhotosViewModel.swift */; };
+		B374DD312CA0511D00AF1431 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B374DD302CA0511D00AF1431 /* FavoritesViewModel.swift */; };
 		B951A7EDA04DC7D5626FB0CB /* Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56ABA3069056EF11C263ACE /* Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,17 +81,20 @@
 		B374DCF62C961A6700AF1431 /* PhotoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewController.swift; sourceTree = "<group>"; };
 		B374DCF82C961B4D00AF1431 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		B374DCFA2C961BCF00AF1431 /* FavoritePhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritePhotoCell.swift; sourceTree = "<group>"; };
-		B374DCFC2C961BF900AF1431 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		B374DCFC2C961BF900AF1431 /* UnsplashAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPI.swift; sourceTree = "<group>"; };
 		B374DD012C961C7400AF1431 /* PersistanceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceManager.swift; sourceTree = "<group>"; };
 		B374DD032C961CB600AF1431 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		B374DD052C973AC800AF1431 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
 		B374DD072C9750B200AF1431 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		B374DD0B2C99888E00AF1431 /* SlideInTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideInTransition.swift; sourceTree = "<group>"; };
 		B374DD0D2C9988C100AF1431 /* NavigationControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerDelegate.swift; sourceTree = "<group>"; };
-		B374DD1D2C99D74900AF1431 /* PhotoSearchResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSearchResponse.swift; sourceTree = "<group>"; };
 		B374DD232C9AEBB000AF1431 /* PhotoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTests.swift; sourceTree = "<group>"; };
 		B374DD252C9AEBDF00AF1431 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
 		B374DD272C9AEC1000AF1431 /* UnsplashAPITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashAPITests.swift; sourceTree = "<group>"; };
+		B374DD292C9FFE5500AF1431 /* DateFormatterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterHelper.swift; sourceTree = "<group>"; };
+		B374DD2C2CA050DF00AF1431 /* PhotoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailViewModel.swift; sourceTree = "<group>"; };
+		B374DD2E2CA050FD00AF1431 /* PhotosViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewModel.swift; sourceTree = "<group>"; };
+		B374DD302CA0511D00AF1431 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		B56ABA3069056EF11C263ACE /* Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestAssigmentWAF_TestAssigmentWAFUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF8166B1B21592BD6F204822 /* Pods-TestAssigmentWAF-TestAssigmentWAFUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestAssigmentWAF-TestAssigmentWAFUITests.release.xcconfig"; path = "Target Support Files/Pods-TestAssigmentWAF-TestAssigmentWAFUITests/Pods-TestAssigmentWAF-TestAssigmentWAFUITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,13 +177,14 @@
 			children = (
 				B374DD152C99D64600AF1431 /* App */,
 				B374DD1C2C99D71A00AF1431 /* Models */,
+				B374DD2B2CA050C200AF1431 /* ViewModels */,
 				B374DD162C99D65C00AF1431 /* ViewControllers */,
 				B374DD192C99D6B600AF1431 /* Transitions */,
 				B374DD182C99D6A500AF1431 /* Networking */,
 				B374DD1B2C99D70200AF1431 /* Resourses */,
 				B374DD1A2C99D6F900AF1431 /* Helpers */,
 				B374DD172C99D68600AF1431 /* Views */,
-				B374DD012C961C7400AF1431 /* PersistanceManager.swift */,
+				B374DD322CA051DB00AF1431 /* Persistance */,
 				B374DCD02C9472D600AF1431 /* Info.plist */,
 			);
 			path = TestAssigmentWAF;
@@ -236,7 +243,7 @@
 		B374DD182C99D6A500AF1431 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				B374DCFC2C961BF900AF1431 /* Network.swift */,
+				B374DCFC2C961BF900AF1431 /* UnsplashAPI.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -254,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				B374DD032C961CB600AF1431 /* UIImageViewExtension.swift */,
+				B374DD292C9FFE5500AF1431 /* DateFormatterHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -271,9 +279,26 @@
 			isa = PBXGroup;
 			children = (
 				B374DD052C973AC800AF1431 /* Photo.swift */,
-				B374DD1D2C99D74900AF1431 /* PhotoSearchResponse.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		B374DD2B2CA050C200AF1431 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B374DD2C2CA050DF00AF1431 /* PhotoDetailViewModel.swift */,
+				B374DD2E2CA050FD00AF1431 /* PhotosViewModel.swift */,
+				B374DD302CA0511D00AF1431 /* FavoritesViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B374DD322CA051DB00AF1431 /* Persistance */ = {
+			isa = PBXGroup;
+			children = (
+				B374DD012C961C7400AF1431 /* PersistanceManager.swift */,
+			);
+			path = Persistance;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -523,13 +548,16 @@
 				B374DD042C961CB600AF1431 /* UIImageViewExtension.swift in Sources */,
 				B374DD082C9750B200AF1431 /* Constants.swift in Sources */,
 				B374DD0C2C99888E00AF1431 /* SlideInTransition.swift in Sources */,
+				B374DD2F2CA050FD00AF1431 /* PhotosViewModel.swift in Sources */,
 				B374DD022C961C7400AF1431 /* PersistanceManager.swift in Sources */,
-				B374DCFD2C961BF900AF1431 /* Network.swift in Sources */,
+				B374DCFD2C961BF900AF1431 /* UnsplashAPI.swift in Sources */,
 				B374DD0E2C9988C100AF1431 /* NavigationControllerDelegate.swift in Sources */,
 				B374DCF92C961B4D00AF1431 /* PhotoCollectionViewCell.swift in Sources */,
 				B374DCF52C96198900AF1431 /* FavoritesViewController.swift in Sources */,
+				B374DD2A2C9FFE5500AF1431 /* DateFormatterHelper.swift in Sources */,
 				B374DCC52C9472D400AF1431 /* SceneDelegate.swift in Sources */,
-				B374DD1E2C99D74900AF1431 /* PhotoSearchResponse.swift in Sources */,
+				B374DD2D2CA050DF00AF1431 /* PhotoDetailViewModel.swift in Sources */,
+				B374DD312CA0511D00AF1431 /* FavoritesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -55,17 +55,23 @@ class UnsplashAPITests: XCTestCase {
         
         let expectation = self.expectation(description: "Photos fetched successfully")
         
-        UnsplashAPI.fetchPhotos(session: mockSession) { photos in
-            XCTAssertEqual(photos.count, 1)
-            XCTAssertEqual(photos.first?.id, "123")
-            XCTAssertEqual(photos.first?.authorName, "Marina Kolbina")
-            expectation.fulfill()
+        UnsplashAPI.fetchPhotos(session: mockSession) { result in
+            switch result {
+            case .success(let photos):
+                XCTAssertEqual(photos.count, 1)
+                XCTAssertEqual(photos.first?.id, "123")
+                XCTAssertEqual(photos.first?.authorName, "Marina Kolbina")
+                expectation.fulfill()
+            case .failure:
+                XCTFail("Expected success but got failure")
+            }
         }
         
         waitForExpectations(timeout: 5, handler: nil)
     }
     
     func testFetchPhotosFailure() {
+        // Mock a failure response (status code 500)
         MockURLProtocol.mockResponseHandler = { request in
             let response = HTTPURLResponse(url: request.url!,
                                            statusCode: 500,
@@ -76,9 +82,14 @@ class UnsplashAPITests: XCTestCase {
         
         let expectation = self.expectation(description: "Photos fetch failed")
         
-        UnsplashAPI.fetchPhotos(session: mockSession) { photos in
-            XCTAssertEqual(photos.count, 0)
-            expectation.fulfill()
+        UnsplashAPI.fetchPhotos(session: mockSession) { result in
+            switch result {
+            case .success:
+                XCTFail("Expected failure but got success")
+            case .failure(let error):
+                XCTAssertNotNil(error)
+                expectation.fulfill()
+            }
         }
         
         waitForExpectations(timeout: 5, handler: nil)

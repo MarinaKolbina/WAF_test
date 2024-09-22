@@ -9,47 +9,75 @@ import UIKit
 
 class PhotoDetailViewController: UIViewController {
 
-    var photo: Photo
+    // MARK: - Properties
+    private var viewModel: PhotoDetailViewModel
     
-    private let imageView = UIImageView()
-    private let authorLabel = UILabel()
-    private let dateLabel = UILabel()
-    private let locationLabel = UILabel()
-    private let downloadsLabel = UILabel()
-    private let favoriteButton = UIButton(type: .system)
+    // MARK: - UI Elements
+    private lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
     
+    private lazy var authorLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .label
+        return label
+    }()
+    
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .secondaryLabel
+        return label
+    }()
+    
+    private lazy var locationLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .secondaryLabel
+        return label
+    }()
+    
+    private lazy var downloadsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .secondaryLabel
+        return label
+    }()
+    
+    private lazy var favoriteButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
+        return button
+    }()
+    
+    // MARK: - Initialization
     init(photo: Photo) {
-        self.photo = photo
+        self.viewModel = PhotoDetailViewModel(photo: photo)
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Photo Details"
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         setupViews()
-        configure(with: photo)
+        bindViewModel()
     }
     
     private func setupViews() {
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(imageView)
-        
-        authorLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        locationLabel.translatesAutoresizingMaskIntoConstraints = false
-        downloadsLabel.translatesAutoresizingMaskIntoConstraints = false
-        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        favoriteButton.setTitle(photo.isFavorite ? "Remove from Favorites" : "Add to Favorites", for: .normal)
-        favoriteButton.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
         
         let stackView = UIStackView(arrangedSubviews: [authorLabel, dateLabel, locationLabel, downloadsLabel, favoriteButton])
         stackView.axis = .vertical
@@ -70,57 +98,33 @@ class PhotoDetailViewController: UIViewController {
         ])
     }
     
-    private func formattedDate(from dateString: String) -> String? {
-        let inputFormatter = DateFormatter()
-        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-        inputFormatter.locale = Locale(identifier: "en_US_POSIX")
-
-        if let date = inputFormatter.date(from: dateString) {
-            let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "d MMMM yyyy"
-            outputFormatter.locale = Locale.current
-            
-            return outputFormatter.string(from: date)
-        } else {
-            return nil
-        }
-    }
-    
-    private func configure(with photo: Photo) {
-        imageView.loadImage(from: photo.imageUrl, placeholder: UIImage(named: "placeholder"))
-        authorLabel.text = "Author: \(photo.authorName)"
-        
-        if let formattedDate = formattedDate(from: photo.creationDate) {
-            dateLabel.text = "Created: \(formattedDate)"
-        } else {
-            dateLabel.text = "Created: Unknown"
+    // MARK: - Bind ViewModel
+    private func bindViewModel() {
+        imageView.loadImage(from: viewModel.imageUrl, placeholder: UIImage(named: "placeholder")) { success in
+            if !success {
+                print("Failed to load image.") // placeholder was set
+            }
         }
         
-        locationLabel.text = "Location: \(photo.location ?? "Unknown")"
-        downloadsLabel.text = "Downloads: \(photo.downloads)"
-        
+        authorLabel.text = viewModel.authorText
+        dateLabel.text = viewModel.dateText
+        locationLabel.text = viewModel.locationText
+        downloadsLabel.text = viewModel.downloadsText
         updateFavoriteButton()
+        
+        // Observe favorite status changes
+        viewModel.onFavoriteStatusChanged = { [weak self] isFavorite in
+            self?.updateFavoriteButton()
+        }
     }
     
     private func updateFavoriteButton() {
-        let title = photo.isFavorite ? "Remove from Favorites" : "Add to Favorites"
+        let title = viewModel.isFavorite ? "Remove from Favorites" : "Add to Favorites"
         favoriteButton.setTitle(title, for: .normal)
     }
     
     @objc private func toggleFavorite() {
-        photo.isFavorite.toggle()
-        if photo.isFavorite {
-            PersistenceManager.shared.addFavorite(photo)
-        } else {
-            PersistenceManager.shared.removeFavorite(photo)
-        }
-        updateFavoriteButton()
-        
-        // Post notification when favorite status changes
-        NotificationCenter.default.post(name: .favoriteStatusChanged, object: photo)
+        viewModel.toggleFavorite()
     }
 }
 
-extension Notification.Name {
-    static let favoriteStatusChanged = Notification.Name("favoriteStatusChanged")
-}

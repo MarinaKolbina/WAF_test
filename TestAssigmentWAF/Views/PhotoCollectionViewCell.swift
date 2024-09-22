@@ -18,14 +18,29 @@ class PhotoCollectionViewCell: UICollectionViewCell {
         return iv
     }()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true // Automatically hide when stopped
+        return indicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         contentView.addSubview(imageView)
+        contentView.addSubview(activityIndicator)
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     
@@ -34,6 +49,17 @@ class PhotoCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with photo: Photo) {
-        imageView.loadImage(from: photo.thumbnailUrl, placeholder: UIImage(named: "placeholder"))
+        activityIndicator.startAnimating()
+        
+        // Use the extension method to load the image asynchronously
+        imageView.loadImage(from: photo.thumbnailUrl, placeholder: UIImage(named: "placeholder")) { [weak self] success in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                
+                if !success {
+                    print("Failed to load image.") // placeholder was set
+                }
+            }
+        }
     }
 }
